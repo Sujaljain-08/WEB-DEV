@@ -1,7 +1,10 @@
 let express=require("express");
 const app=express();
 let path=require("path");
+let methodOverride = require('method-override')
 const { v4: uuidv4 } = require('uuid');
+
+app.use(methodOverride('_method'))
 
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"/views"));
@@ -29,12 +32,27 @@ app.post("/posts",(req,res)=>{
    let {username,content}=req.body;
    id=uuidv4();
    arr.push({username,content,id});
+   res.redirect("/posts");
 });
 
 app.get("/posts/:id",(req,res)=>{
+    console.log(req.params);
    let {id}=req.params;
    let post=arr.find((p)=>id===p.id);
-   console.log(post);
    res.render("explore.ejs",{post});
 });
 
+app.get("/posts/edit/:id",(req,res)=>{
+    let {id} = req.params;
+    let post=arr.find((p)=>id===p.id);
+    res.render("edit.ejs",{post});   
+});
+
+app.patch("/posts/:id",(req,res)=>{
+    let {id}=req.params;
+    let post=arr.find((p)=>id===p.id);
+    let newContent=req.body.content;
+    post.content=newContent;
+    res.redirect("/posts");
+    
+})
