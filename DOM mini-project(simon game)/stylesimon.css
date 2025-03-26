@@ -1,0 +1,47 @@
+body{
+    display: flex;
+    flex-direction: column;
+   text-align: center;
+   
+}
+.container{
+   display:flex;
+   /* flex-direction: column; */
+   justify-content: center;
+   flex-wrap: wrap;
+}
+.box{
+   height:200px;
+   width:200px;
+   border-radius: 20%;
+   border: 10px solid black ; 
+   margin-right:36px;
+   margin-top:36px;
+   
+}
+h1{
+   font-weight: 700;
+}
+
+h3{
+   font-weight: 700;
+}
+
+.red{
+   background-color:red;
+}
+.green{
+   background-color: green;
+}
+.blue{
+   background-color: blue;
+}
+.yellow{
+   background-color: yellow;
+}
+.flashbtn{
+   background-color: white;
+}
+.userflash{
+   background-color: lightgrey;
+}
