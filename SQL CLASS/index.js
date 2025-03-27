@@ -8,7 +8,20 @@ const connection = mysql.createConnection({
     password:'Sujal@08',
   });
 
-  connection.query("select * from t1",(err,result)=>{
+  function user(){
+   return [faker.string.uuid(),
+   faker.internet.username(), // before version 9.1.0, use userName()
+   faker.internet.email(),
+   faker.internet.password()];
+}
+  
+let data=[];
+for(let i=0;i<101;i++){
+   data.push(user());
+}
+
+let q ="INSERT INTO T3 (id,username,email,password) values ?"
+  connection.query(q,[data],(err,result)=>{
    try{
       if(err){
          throw err;
@@ -22,12 +35,4 @@ const connection = mysql.createConnection({
    }
   })
   connection.end();
-  
- function user(){
-    return {userId: faker.string.uuid(),
-    username: faker.internet.username(), // before version 9.1.0, use userName()
-    email: faker.internet.email(),
-    avatar: faker.image.avatar(),
-    password: faker.internet.password()};
- }
 
