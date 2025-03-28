@@ -56,3 +56,22 @@ app.patch("/posts/:id",(req,res)=>{
     res.redirect("/posts");
     
 })
+
+app.get("/posts/delete/:id",(req,res)=>{
+    let {id}=req.params;
+    let post=arr.find((p)=>id===p.id);
+    res.render("delete.ejs",post);
+})
+
+app.delete("/posts/:id",(req,res)=>{
+    let {confirm}=req.body;
+    console.log(confirm);
+    if(confirm === 'yes'){
+        let {id}= req.params;
+        arr= arr.filter((p)=>id!=p.id);
+        res.redirect("/posts");
+    }
+    else{
+        res.redirect("/posts");
+    }
+})
