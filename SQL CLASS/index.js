@@ -1,5 +1,14 @@
 const mysql = require('mysql2');
 const { faker } = require('@faker-js/faker');
+const express=require("express");
+const app = express();
+const path = require("path");
+
+app.set("views", path.join(__dirname, "views")); // Correct way to set the views directory
+app.set("view engine", "ejs"); // Set EJS as the view engine
+
+let data=[];
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -14,9 +23,24 @@ const connection = mysql.createConnection({
    faker.internet.email(),
    faker.internet.password()];
 }
+let num;
+app.get("/",(req,res)=>{
+   connection.query('SELECT * FROM T3',(err,result)=>{
+   if(err){
+      console.log("Error :",err);
+   }
+   else{
+      res.render("noOfUsers",{result});
+      console.log(result);
+   }
+});
+});
+
+
+app.listen(3000,()=>{console.log("server started !!")});
   
-let data=[];
-for(let i=0;i<101;i++){
+
+for(let i=0;i<100;i++){
    data.push(user());
 }
 
@@ -34,5 +58,5 @@ let q ="INSERT INTO T3 (id,username,email,password) values ?"
       console.log("err :",err);
    }
   })
-  connection.end();
+//   connection.end();
 
