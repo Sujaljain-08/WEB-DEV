@@ -12,31 +12,47 @@ function App() {
 
   function submitHandler() {
     if (newTask.trim() !== "") {
-      setTasks((prevTasks) => [...prevTasks, { Task: newTask, id: uuidv4() }]);
+      setTasks((prevTasks) => [
+        ...prevTasks,
+        { Task: newTask, id: uuidv4(), style: {} }, // Add empty style initially
+      ]);
       setNewTask(""); // clear input after submit
     }
   }
 
-  function DeleteHandler(e){
-    console.dir(e);
+  // Mark task as done by adding line-through style
+  function Markdone(id) {
+    setTasks(tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, style: { textDecoration: 'line-through' } }; // Add line-through style
+      }
+      return task;
+    }));
   }
 
   return (
     <>
-      <input 
-        onChange={inputHandler} 
-        placeholder="Add a task" 
-        value={newTask} 
+      <input
+        onChange={inputHandler}
+        placeholder="Add a task"
+        value={newTask}
       />
       <br />
       <br />
       <button onClick={submitHandler}>ADD TASK</button>
       <hr />
-      <h3>Tasks TODO</h3>
+      <h1>Tasks TODO</h1>
       <ul>
-        {tasks.map(task => (<>
-                                <li  onClick={DeleteHandler} key={task.id}>{task.Task} &nbsp; <button>Delete</button></li>
-                            </>
+        {tasks.map((task) => (
+          <li
+            key={task.id}
+            style={task.style} // Apply the style here
+          >
+            {task.Task} &nbsp;
+            <button onClick={() => Markdone(task.id)}>
+              <i className="fa-solid fa-check"></i> {/* Checkmark icon */}
+            </button>
+          </li>
         ))}
       </ul>
     </>
